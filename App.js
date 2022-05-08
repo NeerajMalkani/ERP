@@ -1,17 +1,19 @@
 import { Provider as PaperProvider, List } from "react-native-paper";
 import { theme } from "./src/theme/apptheme";
 import "react-native-gesture-handler";
-import { NavigationContainer, createNavigationContainerRef } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import MasterScreen from "./src/screens/Master.screen";
+import { createStackNavigator } from "@react-navigation/stack";
+import RawMaterialScreen, { navigationRef } from "./src/screens/RawMaterial.screen";
 import DashboardScreen from "./src/screens/Dashboard.screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Container } from "./src/components/container";
 import { ScrollView } from "react-native";
 import { useState } from "react";
+import AddRawMaterial from "./src/screens/AddRawMaterial";
 
 const Drawer = createDrawerNavigator();
-export const navigationRef = createNavigationContainerRef();
+const Stack = createStackNavigator();
 
 export default function App() {
   const [activeIndex, setActiveIndex] = useState("Dashboard");
@@ -48,9 +50,9 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Raw Material Brand" ? theme.colors.primary : theme.colors.text }}
                 title="Raw Material Brand"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
-                  navigationRef.navigate("Master");
+                  navigationRef.navigate("RawMaterial");
                   setActiveIndex("Raw Material Brand");
                   setExpandedMaster(true);
                 }}
@@ -58,7 +60,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Width of GP coil" ? theme.colors.primary : theme.colors.text }}
                 title="Width of GP coil"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Width of GP coil");
                   setActiveIndex("Width of GP coil");
@@ -68,7 +70,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Mass of Zinc coating" ? theme.colors.primary : theme.colors.text }}
                 title="Mass of Zinc coating"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Mass of Zinc coating");
                   setActiveIndex("Mass of Zinc coating");
@@ -78,7 +80,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Product for Production" ? theme.colors.primary : theme.colors.text }}
                 title="Product for Production"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Master");
                   setActiveIndex("Product for Production");
@@ -88,7 +90,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Vendor" ? theme.colors.primary : theme.colors.text }}
                 title="Vendor"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Vendor");
                   setActiveIndex("Vendor");
@@ -98,7 +100,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Supplier" ? theme.colors.primary : theme.colors.text }}
                 title="Supplier"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Supplier");
                   setActiveIndex("Supplier");
@@ -156,7 +158,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Add Production" ? theme.colors.primary : theme.colors.text }}
                 title="Add Production"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Add Production");
                   setActiveIndex("Add Production");
@@ -166,7 +168,7 @@ export default function App() {
               <List.Item
                 titleStyle={{ color: activeIndex === "Production List" ? theme.colors.primary : theme.colors.text }}
                 title="Production List"
-                style={{ backgroundColor: theme.colors.border, height: 52 }}
+                style={{ backgroundColor: theme.colors.border, height: 52, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }}
                 onPress={(e) => {
                   //navigationRef.navigate("Production List");
                   setActiveIndex("Production List");
@@ -191,14 +193,35 @@ export default function App() {
       </ScrollView>
     );
   };
+  const DrawerNavigator = () => {
+    return (
+      <Drawer.Navigator drawerContent={() => <DrawerContent />}>
+        <Drawer.Screen options={{ headerShown: false }} name="Dashboard" component={DashboardScreen} />
+        <Drawer.Screen options={{ headerShown: false }} name="RawMaterial" component={RawMaterialScreen} />
+      </Drawer.Navigator>
+    );
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <PaperProvider theme={theme}>
         <NavigationContainer ref={navigationRef}>
-          <Drawer.Navigator drawerContent={() => <DrawerContent />}>
-            <Drawer.Screen options={{ headerShown: false }} name="Dashboard" component={DashboardScreen} />
-            <Drawer.Screen name="Master" component={MasterScreen} />
-          </Drawer.Navigator>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="AddRawMaterial"
+              component={AddRawMaterial}
+              options={{
+                headerStyle: {
+                  backgroundColor: theme.colors.primary,
+                  height: 64,
+                },
+                headerTitleStyle: {
+                  color: theme.colors.textLight,
+                },
+                headerTintColor: theme.colors.textLight,
+              }}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
     </SafeAreaView>
