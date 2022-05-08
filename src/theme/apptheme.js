@@ -4,11 +4,19 @@ export const theme = {
   roundness: 2,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#0D47A1",
+    primary: "#473f97",
     secondary: "#b11313",
     accent: "#4687eb",
     text: "#101010",
+    textSecondary: "#7d7d7d",
     textLight: "#ffffff",
     textLightSecondary: "#dedede",
-  }
+    border: "#ededed",
+  },
+  multicolors: {
+    red: "#ff5959",
+    green: "#4cd97b",
+    yellow: "#db8b2f",
+    blue: "#4cb5ff",
+  },
 };

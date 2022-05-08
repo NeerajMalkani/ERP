@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
 export const Container = (props) => {
-  return <View style={{ ...props.style, display: "flex"}}>{props.children}</View>;
+  return <View style={{ ...props.style, display: "flex" }}>{props.children}</View>;
 };
 
 export const ContainerCenter = (props) => {
