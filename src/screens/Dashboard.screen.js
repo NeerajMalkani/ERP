@@ -1,8 +1,7 @@
-import { Card, Headline, Paragraph, Subheading, Text, Title } from "react-native-paper";
+import { Card, Paragraph, Subheading, Text, Title } from "react-native-paper";
 import { Box } from "../components/box";
 import { theme } from "../theme/apptheme";
 import Header from "../components/header";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCartFlatbed } from "@fortawesome/free-solid-svg-icons/faCartFlatbed";
 import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
 import { faShop } from "@fortawesome/free-solid-svg-icons/faShop";
@@ -31,8 +30,8 @@ export default DashboardScreen = ({ navigation }) => {
   };
   return (
     // , "(Raw \n Materials Brand)" backgroundColor: theme.colors.primary,, "(Raw Materials Brand)"
-    <Box style={{  flex: 1 }}>
-      <Header navigation={navigation} />
+    <Box style={{ flex: 1 }}>
+      <Header navigation={navigation} title="Dashboard" />
       <View style={{ flexDirection: "row", flexWrap: "wrap", padding: 8 }}>
         {CreateCard("20", "Manufacturers", theme.colors.textLight, faCartFlatbed)}
         {CreateCard("118", "Suppliers", theme.colors.textLight, faTruck)}
@@ -42,31 +41,25 @@ export default DashboardScreen = ({ navigation }) => {
       <View style={{ flexDirection: "column", flexGrow: 1, padding: 16, borderTopLeftRadius: 16, borderTopRightRadius: 16, backgroundColor: theme.colors.textLight }}>
         <Title style={{ marginStart: 4 }}>Production</Title>
         <View style={{ flexDirection: "row" }}>
-          <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border }}>
-            <Card.Content>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: theme.colors.textSecondary }}>Raw Materials</Text>
-                <Text style={{ fontSize: 16, marginTop: 12 }}>8273 kgs</Text>
-                <Text style={{ fontSize: 16, marginTop: 8 }}>36 units</Text>
-              </View>
-            </Card.Content>
+          <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border, padding: 0 }}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontSize: 14, color: theme.colors.textSecondary, marginTop: 12 }}>Raw Material</Text>
+              <Text style={{ fontSize: 16, marginTop: 12 }}>8273 kgs</Text>
+              <Text style={{ fontSize: 16, marginTop: 8, marginBottom: 16 }}>36 units</Text>
+            </View>
           </Card>
           <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border }}>
-            <Card.Content>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: theme.colors.textSecondary }}>Production</Text>
-                <Text style={{ fontSize: 16, marginTop: 12 }}>23467 kgs</Text>
-                <Text style={{ fontSize: 16, marginTop: 8 }}>45 units</Text>
-              </View>
-            </Card.Content>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontSize: 14, color: theme.colors.textSecondary, marginTop: 12 }}>Production</Text>
+              <Text style={{ fontSize: 16, marginTop: 12 }}>23467 kgs</Text>
+              <Text style={{ fontSize: 16, marginTop: 8, marginBottom: 16 }}>45 units</Text>
+            </View>
           </Card>
           <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border }}>
-            <Card.Content>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: theme.colors.textSecondary }}>Scrap</Text>
-                <Text style={{ fontSize: 16, marginTop: 24 }}>2850 kgs</Text>
-              </View>
-            </Card.Content>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Text style={{ fontSize: 14, color: theme.colors.textSecondary, marginTop: 12 }}>Scrap</Text>
+              <Text style={{ fontSize: 16, marginTop: 24, marginBottom: 16 }}>2850 kgs</Text>
+            </View>
           </Card>
         </View>
         <Title style={{ marginTop: 16, marginStart: 4 }}>Sales</Title>

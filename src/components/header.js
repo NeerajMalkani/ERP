@@ -4,8 +4,9 @@ import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons/faBarsStagger
 import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
 import { theme } from "../theme/apptheme";
 import { TouchableNativeFeedback, View } from "react-native";
+import { Title } from "react-native-paper";
 
-const Header = ({ navigation }) => {
+const Header = ({ navigation, title }) => {
   return (
     <ContainerHorizontal style={{ height: 64, paddingHorizontal: 16, justifyContent: "space-between", alignItems: "center", backgroundColor: theme.colors.primary }}>
       <TouchableNativeFeedback>
@@ -18,6 +19,7 @@ const Header = ({ navigation }) => {
           <FontAwesomeIcon icon={faBarsStaggered} size={24} color={theme.colors.textLight} />
         </View>
       </TouchableNativeFeedback>
+      <Title style={{ color: theme.colors.textLight, flexGrow: 1, paddingStart: 12 }}>{title}</Title>
       <TouchableNativeFeedback>
         <View
           style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}
