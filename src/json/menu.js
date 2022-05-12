@@ -8,7 +8,7 @@ export const MenuItems = [
   },
   {
     title: "Master",
-    icon: "plus-thick",
+    icon: "file-settings",
     type: "accordian",
     index: 1,
     items: [

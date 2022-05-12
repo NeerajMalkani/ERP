@@ -13,8 +13,7 @@ import { useState, useEffect, useCallback } from "react";
 import AddRawMaterial from "./src/screens/AddRawMaterial";
 import { MenuItems } from "./src/json/menu";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -24,11 +23,13 @@ export default function App() {
   const [activeMainIndex, setActiveMainIndex] = useState(0);
 
   const handleClick = useCallback((index, navigation, mainIndex) => {
-    navigationRef.navigate(navigation);
+    if (navigation !== undefined) {
+      navigationRef.navigate(navigation);
+    }
     setTimeout(() => {
       setActiveMainIndex(parseInt(mainIndex));
       setActiveIndex(parseInt(index));
-    }, 300);
+    }, 360);
   });
 
   const ListItems = () => {
@@ -48,12 +49,13 @@ export default function App() {
             />
           ) : (
             <CollapsibleView
+              key={i}
               noArrow={true}
               initExpanded={activeMainIndex === parseInt(i) ? true : false}
               style={{ borderWidth: 0, alignItems: "flex-start", margin: 0, padding: 0 }}
               title={
-                <ContainerHorizontal style={{ flex: 1, padding: 16, paddingBottom: 18, borderBottomWidth: 1, borderBottomColor: theme.colors.border }}>
-                  <FontAwesomeIcon icon={faEdit} color={theme.colors.textSecondary} size={20} />
+                <ContainerHorizontal style={{ flex: 1, padding: 16, paddingLeft: 20, paddingBottom: 18, borderBottomWidth: 1, borderBottomColor: theme.colors.border }}>
+                  <Icon name={k.icon} color={theme.colors.textSecondary} size={24} />
                   <Text style={{ color: theme.colors.text, paddingLeft: 20, fontSize: 16 }}>{k.title}</Text>
                 </ContainerHorizontal>
               }
