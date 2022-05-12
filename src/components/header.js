@@ -7,7 +7,7 @@ import { TouchableNativeFeedback, View } from "react-native";
 
 const Header = ({ navigation }) => {
   return (
-    <ContainerHorizontal style={{ height: 64, padding: 16, justifyContent: "space-between" }}>
+    <ContainerHorizontal style={{ height: 64, paddingHorizontal: 16, justifyContent: "space-between", alignItems: "center", backgroundColor: theme.colors.primary }}>
       <TouchableNativeFeedback>
         <View
           style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}
