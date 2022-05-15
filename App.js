@@ -4,16 +4,16 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
-import RawMaterialScreen, { navigationRef } from "./src/screens/RawMaterial.screen";
+import RawMaterialScreen, { navigationRef } from "./src/screens/Master/RawMaterials/RawMaterial.screen";
 import DashboardScreen from "./src/screens/Dashboard.screen";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Container, ContainerHorizontal } from "./src/components/container";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useState, useCallback } from "react";
-import AddRawMaterial from "./src/screens/AddRawMaterial";
+import AddRawMaterial from "./src/screens/Master/RawMaterials/AddRawMaterial";
 import { MenuItems } from "./src/json/menu";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Styles } from "./src/styles/styles";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -39,9 +39,9 @@ export default function App() {
           return k.type === "item" ? (
             <List.Item
               key={i}
-              titleStyle={{ color: activeIndex === parseInt(i) ? theme.colors.primary : theme.colors.text }}
+              titleStyle={activeIndex === parseInt(i) ? Styles.primaryColor : Styles.textColor}
               title={k.title}
-              style={{ paddingVertical: 0, marginHorizontal: 12, paddingHorizontal: 0, borderBottomWidth: 1, borderBottomColor: theme.colors.border }}
+              style={[Styles.padding0, Styles.marginHorizontal12, Styles.borderBottom1]}
               left={() => <List.Icon color={activeIndex === parseInt(i) ? theme.colors.primary : theme.colors.textSecondary} icon={k.icon} />}
               onPress={(e) => {
                 handleClick(i, k.navigation, i);
@@ -54,21 +54,21 @@ export default function App() {
               collapsibleContainerStyle={{}}
               arrowStyling={{ svgProps: { transform: [{ rotate: "-90deg" }] } }}
               initExpanded={activeMainIndex === parseInt(i) ? true : false}
-              style={{ borderWidth: 0, alignItems: "flex-start", margin: 0, padding: 0, borderBottomWidth: 1, borderBottomColor: theme.colors.border }}
+              style={[Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0, Styles.borderBottom1]}
               title={
-                <ContainerHorizontal style={{ flex: 1, padding: 14, paddingLeft: 20, paddingBottom: 15 }}>
+                <View style={[Styles.padding16, Styles.flex1, Styles.flexRow, { paddingLeft: 20 }]}>
                   <Icon name={k.icon} color={theme.colors.textSecondary} size={24} />
-                  <Text style={{ color: theme.colors.text, paddingLeft: 20, fontSize: 16 }}>{k.title}</Text>
-                </ContainerHorizontal>
+                  <Text style={[Styles.textColor, Styles.fontSize16, { paddingLeft: 20 }]}>{k.title}</Text>
+                </View>
               }
             >
               {k.items.map((j, l) => {
                 return (
                   <List.Item
                     key={l}
-                    titleStyle={{ color: activeIndex === parseInt(i.toString() + l.toString()) ? theme.colors.primary : theme.colors.textSecondary }}
+                    titleStyle={activeIndex === parseInt(i.toString() + l.toString()) ? Styles.primaryColor : Styles.textSecondaryColor}
                     title={j.title}
-                    style={{ paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary, backgroundColor: theme.colors.backgroundSecondary }}
+                    style={[Styles.backgroundSecondaryColor, Styles.paddingVertical8, { borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }]}
                     onPress={(e) => {
                       handleClick(i.toString() + l.toString(), j.navigation, i);
                     }}
@@ -85,9 +85,9 @@ export default function App() {
   const DrawerContent = () => {
     return (
       <ScrollView>
-        <Container>
+        <View>
           <ListItems />
-        </Container>
+        </View>
       </ScrollView>
     );
   };
@@ -110,10 +110,7 @@ export default function App() {
               name="AddRawMaterial"
               component={AddRawMaterial}
               options={{
-                headerStyle: {
-                  backgroundColor: theme.colors.primary,
-                  height: 64,
-                },
+                headerStyle: [Styles.primaryBgColor, Styles.height64],
                 headerTitleStyle: {
                   color: theme.colors.textLight,
                 },

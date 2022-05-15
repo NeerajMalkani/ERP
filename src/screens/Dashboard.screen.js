@@ -1,100 +1,77 @@
 import { Card, Paragraph, Subheading, Text, Title } from "react-native-paper";
-import { Box } from "../components/box";
 import { theme } from "../theme/apptheme";
 import Header from "../components/header";
-import { faCartFlatbed } from "@fortawesome/free-solid-svg-icons/faCartFlatbed";
-import { faTruck } from "@fortawesome/free-solid-svg-icons/faTruck";
-import { faShop } from "@fortawesome/free-solid-svg-icons/faShop";
-import { faUsers } from "@fortawesome/free-solid-svg-icons/faUsers";
 import { View } from "react-native";
 import { LineChart } from "react-native-svg-charts";
 import { Grid } from "react-native-svg-charts";
+import { Styles } from "../styles/styles";
 
 export default DashboardScreen = ({ navigation }) => {
-  const data = [25000, 35123, 156987, 194565, 146598, 245654];
-  const CreateCard = (title, description, color, icon, subdescription) => {
+  const CreateMainCard = (title, description, color, subdescription) => {
     return (
-      <View style={{ width: "50%", padding: 4, position: "relative" }}>
-        <Card style={{ backgroundColor: color, borderRadius: 4, borderWidth: 1, borderColor: theme.colors.border, overflow: "hidden", justifyContent: "center", alignItems: "center" }}>
+      <View style={[Styles.padding4, { width: "50%" }]}>
+        <Card style={[Styles.borderRadius4, Styles.border1, Styles.flexJustifyCenter, Styles.flexAlignCenter, { backgroundColor: color }]}>
           <Card.Content>
-            <Text style={{ color: theme.colors.text, fontSize: 24, textAlign: "center" }}>{title}</Text>
-            <Subheading style={{ color: theme.colors.textSecondary }}>{description}</Subheading>
-            <Paragraph style={{ color: theme.colors.textSecondary, fontSize: 12, marginTop: -4 }}>{subdescription}</Paragraph>
+            <Text style={[Styles.textColor, Styles.fontSize24, Styles.textCenter]}>{title}</Text>
+            <Subheading style={[Styles.textSecondaryColor]}>{description}</Subheading>
+            <Paragraph style={[Styles.textSecondaryColor, Styles.fontSize12, { marginTop: -4 }]}>{subdescription}</Paragraph>
           </Card.Content>
-          {/* <View style={{ position: "absolute", bottom: -8, right: -8, opacity: 0.6, zIndex: -1, transform: [{ rotate: "-12deg" }] }}>
-            <FontAwesomeIcon icon={icon} size={72} color={theme.colors.textLightSecondary} />
-          </View> */}
         </Card>
       </View>
     );
   };
+  const CreateProductionCard = (title, value1, value2) => {
+    return (
+      <Card style={[Styles.borderRadius4, Styles.flex1, Styles.border1, Styles.padding0, Styles.margin4]}>
+        <View style={[Styles.flexJustifyCenter, Styles.flexAlignCenter]}>
+          <Text style={[Styles.fontSize14, Styles.textSecondaryColor, Styles.marginTop12]}>{title}</Text>
+          <Text style={[Styles.fontSize16, Styles.textColor, Styles.marginTop12]}>{value1}</Text>
+          <Text style={[Styles.fontSize16, Styles.textColor, Styles.marginTop8, Styles.marginBottom12]}>{value2}</Text>
+        </View>
+      </Card>
+    );
+  };
+  const CreateSalesCard = (title, value, graphData, value2, isGrowth) => {
+    return (
+      <Card style={[Styles.flex1, Styles.borderRadius4, Styles.margin4, Styles.border1]}>
+        <Card.Content>
+          <View style={[Styles.flexJustifyCenter, Styles.flexAlignCenter]}>
+            <Text style={[Styles.fontSize14, Styles.textSecondaryColor]}>{title}</Text>
+            <Text style={[Styles.fontSize16, Styles.textColor, Styles.marginTop8]}>{value}</Text>
+            {value2 !== undefined && <Text style={[Styles.fontSize14, Styles.marginTop4, { color: isGrowth ? theme.multicolors.green : theme.multicolors.red }]}>{value2}</Text>}
+          </View>
+          {graphData !== undefined && (
+            <LineChart style={{ height: 40 }} showGrid={false} numberOfTicks={0} data={graphData} svg={{ stroke: "rgb(134, 65, 244)" }} contentInset={{ top: 8, bottom: 4 }}>
+              <Grid />
+            </LineChart>
+          )}
+        </Card.Content>
+      </Card>
+    );
+  };
   return (
-    // , "(Raw \n Materials Brand)" backgroundColor: theme.colors.primary,, "(Raw Materials Brand)"
-    <Box style={{ flex: 1 }}>
+    <View style={[Styles.flex1]}>
       <Header navigation={navigation} title="Dashboard" />
-      <View style={{ flexDirection: "row", flexWrap: "wrap", padding: 8 }}>
-        {CreateCard("20", "Manufacturers", theme.colors.textLight, faCartFlatbed)}
-        {CreateCard("118", "Suppliers", theme.colors.textLight, faTruck)}
-        {CreateCard("95", "Vendors", theme.colors.textLight, faShop)}
-        {CreateCard("845", "Customers", theme.colors.textLight, faUsers)}
+      <View style={[Styles.flexRow, Styles.flexWrap, Styles.padding8]}>
+        {CreateMainCard("20", "Manufacturers", theme.colors.textLight)}
+        {CreateMainCard("118", "Suppliers", theme.colors.textLight)}
+        {CreateMainCard("95", "Vendors", theme.colors.textLight)}
+        {CreateMainCard("845", "Customers", theme.colors.textLight)}
       </View>
-      <View style={{ flexDirection: "column", flexGrow: 1, padding: 16, borderTopLeftRadius: 16, borderTopRightRadius: 16, backgroundColor: theme.colors.textLight }}>
-        <Title style={{ marginStart: 4 }}>Production</Title>
-        <View style={{ flexDirection: "row" }}>
-          <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border, padding: 0 }}>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontSize: 14, color: theme.colors.textSecondary, marginTop: 12 }}>Raw Material</Text>
-              <Text style={{ fontSize: 16, marginTop: 12 }}>8273 kgs</Text>
-              <Text style={{ fontSize: 16, marginTop: 8, marginBottom: 16 }}>36 units</Text>
-            </View>
-          </Card>
-          <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border }}>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontSize: 14, color: theme.colors.textSecondary, marginTop: 12 }}>Production</Text>
-              <Text style={{ fontSize: 16, marginTop: 12 }}>23467 kgs</Text>
-              <Text style={{ fontSize: 16, marginTop: 8, marginBottom: 16 }}>45 units</Text>
-            </View>
-          </Card>
-          <Card style={{ borderRadius: 4, margin: 4, flex: 1, borderWidth: 1, borderColor: theme.colors.border }}>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontSize: 14, color: theme.colors.textSecondary, marginTop: 12 }}>Scrap</Text>
-              <Text style={{ fontSize: 16, marginTop: 24, marginBottom: 16 }}>2850 kgs</Text>
-            </View>
-          </Card>
+      <View style={[Styles.flexColumn, Styles.flexGrow, Styles.padding16, Styles.borderTopRadius16, Styles.backgroundColor]}>
+        <Title style={[Styles.margin4]}>Production</Title>
+        <View style={[Styles.flexRow]}>
+          {CreateProductionCard("Raw Material", "8273 kgs", "36 units")}
+          {CreateProductionCard("Production", "23467 kgs", "45 units")}
+          {CreateProductionCard("Scrap", "2850 kgs")}
         </View>
-        <Title style={{ marginTop: 16, marginStart: 4 }}>Sales</Title>
-        <View style={{ flexDirection: "row" }}>
-          <Card style={{ flex: 1, borderRadius: 4, margin: 4, borderWidth: 1, borderColor: theme.colors.border }}>
-            <Card.Content>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: theme.colors.textSecondary }}>Total Sales</Text>
-                <Text style={{ fontSize: 16, marginTop: 8 }}>₹2,45,654</Text>
-              </View>
-              <LineChart style={{ height: 40 }} showGrid={false} numberOfTicks={0} data={data} svg={{ stroke: "rgb(134, 65, 244)" }} contentInset={{ top: 8, bottom: 4 }}>
-                <Grid />
-              </LineChart>
-            </Card.Content>
-          </Card>
-          <Card style={{ flex: 1, borderRadius: 4, margin: 4, borderWidth: 1, borderColor: theme.colors.border }}>
-            <Card.Content>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: theme.colors.textSecondary }}>This Month</Text>
-                <Text style={{ fontSize: 16, marginTop: 16 }}>₹45,212</Text>
-                <Text style={{ fontSize: 14, color: theme.multicolors.green, marginTop: 4 }}>₹263▲</Text>
-              </View>
-            </Card.Content>
-          </Card>
-          <Card style={{ flex: 1, borderRadius: 4, margin: 4, borderWidth: 1, borderColor: theme.colors.border }}>
-            <Card.Content>
-              <View style={{ justifyContent: "center", alignItems: "center" }}>
-                <Text style={{ fontSize: 14, color: theme.colors.textSecondary }}>Today</Text>
-                <Text style={{ fontSize: 16, marginTop: 16 }}>₹2,458</Text>
-                <Text style={{ fontSize: 14, color: theme.multicolors.red, marginTop: 4 }}>₹25▼</Text>
-              </View>
-            </Card.Content>
-          </Card>
+        <Title style={[Styles.marginTop16, Styles.marginStart4]}>Sales</Title>
+        <View style={[Styles.flexRow]}>
+          {CreateSalesCard("Total Sales", "₹2,45,654", [25000, 35123, 156987, 194565, 146598, 245654])}
+          {CreateSalesCard("This Month", "₹45,212", undefined, "₹263▲", true)}
+          {CreateSalesCard("Today", "₹2,458", undefined, "₹25▼", false)}
         </View>
       </View>
-    </Box>
+    </View>
   );
 };

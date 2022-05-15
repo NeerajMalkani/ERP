@@ -5,28 +5,19 @@ import { faBell } from "@fortawesome/free-solid-svg-icons/faBell";
 import { theme } from "../theme/apptheme";
 import { TouchableNativeFeedback, View } from "react-native";
 import { Title } from "react-native-paper";
+import { Styles } from "../styles/styles";
 
 const Header = ({ navigation, title }) => {
   return (
-    <ContainerHorizontal style={{ height: 64, paddingHorizontal: 16, justifyContent: "space-between", alignItems: "center", backgroundColor: theme.colors.primary }}>
+    <ContainerHorizontal style={[Styles.height64, Styles.paddingHorizontal16, Styles.flexAlignCenter, Styles.primaryBgColor, { justifyContent: "space-between" }]}>
       <TouchableNativeFeedback>
-        <View
-          style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}
-          onTouchStart={() => {
-            navigation.toggleDrawer();
-          }}
-        >
+        <View style={[Styles.width48, Styles.height48, Styles.flexJustifyCenter, Styles.flexAlignCenter]} onTouchStart={() => navigation.toggleDrawer()}>
           <FontAwesomeIcon icon={faBarsStaggered} size={24} color={theme.colors.textLight} />
         </View>
       </TouchableNativeFeedback>
-      <Title style={{ color: theme.colors.textLight, flexGrow: 1, paddingStart: 12 }}>{title}</Title>
+      <Title style={[Styles.textColorWhite, Styles.flexGrow, Styles.paddingStart12]}>{title}</Title>
       <TouchableNativeFeedback>
-        <View
-          style={{ width: 48, height: 48, alignItems: "center", justifyContent: "center" }}
-          onTouchStart={() => {
-            //navigation.toggleDrawer();
-          }}
-        >
+        <View style={[Styles.width48, Styles.height48, Styles.flexJustifyCenter, Styles.flexAlignCenter]} onTouchStart={() => {}}>
           <FontAwesomeIcon icon={faBell} size={24} color={theme.colors.textLight} />
         </View>
       </TouchableNativeFeedback>
