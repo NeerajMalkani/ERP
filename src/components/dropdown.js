@@ -1,24 +1,49 @@
 import { useState } from "react";
-import { View, FlatList, TouchableOpacity } from "react-native";
-import { Menu, Text, TextInput } from "react-native-paper";
+import { View, TouchableNativeFeedback } from "react-native";
+import { Text } from "react-native-paper";
+import SelectDropdown from "react-native-select-dropdown";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { theme } from "../theme/apptheme";
 
-export default Dropdown = ({ data, onSelected, onChange, label }) => {
-  const [visible, setVisible] = useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
+export default Dropdown = ({ data, label, onSelected }) => {
+  let mainSelectedItem = "";
+  const [isFocused, setFocused] = useState(false);
   return (
-    <View style={{ flex: 1, backgroundColor: "red" }}>
-      <Menu visible={visible} onDismiss={closeMenu} statusBarHeight={100} style={{ flex: 1, flexGrow: 1 }} anchor={<TextInput label={label} onPressIn={openMenu} onBlur={closeMenu} />}>
-        <Menu.Item
-          // style={{ flex: 1, flexGrow: 1, width: 400 }}
-          // titleStyle={{ alignSelf: "stretch" }}
-          onPress={() => {
-            closeMenu();
-          }}
-          title="Item 1"
-        />
-        <Menu.Item style={{ flexGrow: 1, flex: 1, alignSelf: "stretch" }} onPress={() => {}} title="Item 2" />
-      </Menu>
-    </View>
+    <SelectDropdown
+      data={data}
+      dropdownOverlayColor="transparent"
+      defaultButtonText={label}
+      buttonStyle={{ width: "100%", height: 56, borderBottomWidth: 1, backgroundColor: "transparent", borderBottomColor: isFocused ? theme.colors.primary : theme.colors.textSecondary }}
+      renderCustomizedButtonChild={(selectedItem, index) => {
+        return (
+          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 8 }}>
+            <Text style={selectedItem ? { color: isFocused ? theme.colors.primary : theme.colors.text, fontSize: 16 } : { color: isFocused ? theme.colors.primary : theme.colors.textSecondary, fontSize: 16 }}>
+              {selectedItem ? selectedItem : label}
+            </Text>
+          </View>
+        );
+      }}
+      dropdownStyle={{ marginTop: -38 }}
+      rowStyle={{ borderBottomWidth: 1, borderBottomColor: theme.colors.border, backgroundColor: theme.colors.textLight }}
+      renderDropdownIcon={(isOpened) => {
+        return <FontAwesome name={isOpened ? "angle-up" : "angle-down"} color={isFocused ? theme.colors.primary : theme.colors.textSecondary} size={18} />;
+      }}
+      onSelect={(selectedItem, index) => {
+        mainSelectedItem = selectedItem;
+        onSelected(selectedItem, index);
+      }}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      renderCustomizedRowChild={(selectedItem) => {
+        return (
+          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 18 }}>
+            <Text style={{ textAlign: "left", color: mainSelectedItem === selectedItem ? theme.colors.primary : theme.colors.text, fontSize: 16 }}>{selectedItem}</Text>
+          </View>
+        );
+      }}
+      rowTextForSelection={(item, index) => {
+        return item;
+      }}
+    />
   );
 };

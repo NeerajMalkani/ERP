@@ -26,7 +26,7 @@ export const Styles = StyleSheet.create({
     color: theme.colors.textLightSecondary,
   },
   textColorWhite: {
-    backgroundColor: theme.colors.textLight,
+    color: theme.colors.textLight,
   },
 
   backgroundColor: {
@@ -663,6 +663,12 @@ export const Styles = StyleSheet.create({
   width64: {
     width: 64,
   },
+  width50per: {
+    width: "50%",
+  },
+  width100per: {
+    width: "100%",
+  },
 
   height24: {
     height: 24,
@@ -681,6 +687,12 @@ export const Styles = StyleSheet.create({
   },
   height64: {
     height: 64,
+  },
+  height50per: {
+    height: "50%",
+  },
+  height100per: {
+    height: "100%",
   },
   /* #endregion */
 

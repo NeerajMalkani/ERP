@@ -1,51 +1,25 @@
-import { View, StyleSheet } from "react-native";
-import SelectDropdown from "react-native-select-dropdown";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { ScrollView, View } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import Dropdown from "../../../components/dropdown";
+import { Styles } from "../../../styles/styles";
 
 export default AddRawMaterial = () => {
-  const countries = ["Egypt", "Canada", "Australia", "Ireland", "Egypt", "Canada", "Australia", "Ireland", "Egypt", "Canada", "Australia", "Ireland"];
+  const services = ["Processing", "Formulating", "Sterilization", "Packaging", "Labelling", "Handling", "Quality control"];
+  const categories = ["JSW", "ESSAR", "TATA Steel", "SAIL"];
+  const onServiceSelected = (selectedItem, index) => {};
+  const onCategorySelected = (selectedItem, index) => {};
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <SelectDropdown
-        data={countries}
-        // defaultValueByIndex={1}
-        // defaultValue={'Egypt'}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index);
-        }}
-        dropdownOverlayColor="transparent"
-        defaultButtonText={"Select country"}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          return selectedItem;
-        }}
-        rowTextForSelection={(item, index) => {
-          return item;
-        }}
-        buttonStyle={styles.dropdown1BtnStyle}
-        buttonTextStyle={styles.dropdown1BtnTxtStyle}
-        renderDropdownIcon={(isOpened) => {
-          return <FontAwesome name={isOpened ? "chevron-up" : "chevron-down"} color={"#444"} size={18} />;
-        }}
-        dropdownIconPosition={"right"}
-        dropdownStyle={styles.dropdown1DropdownStyle}
-        rowStyle={styles.dropdown1RowStyle}
-        rowTextStyle={styles.dropdown1RowTxtStyle}
-      />
-    </View>
+    <ScrollView style={[Styles.flex1, Styles.padding16, Styles.backgroundColor]} keyboardShouldPersistTaps="handled">
+      <View style={[Styles.marginBottom16]}>
+        <Dropdown label="Service Type" data={services} onSelected={onServiceSelected} />
+      </View>
+      <View style={[Styles.marginBottom16]}>
+        <Dropdown label="Category (Raw Material Brand)" data={categories} onSelected={onCategorySelected} />
+      </View>
+      <TextInput label="Brand code" onChangeText={(text) => {}} style={{ backgroundColor: "transparent" }} />
+      <Button style={{ marginTop: 32 }} mode="contained" onPress={() => console.log("Pressed")}>
+        Add
+      </Button>
+    </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  dropdown1BtnStyle: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#FFF",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#444",
-  },
-  dropdown1BtnTxtStyle: { color: "#444", textAlign: "left" },
-  dropdown1DropdownStyle: { backgroundColor: "#FFFFFF", marginTop: -36 },
-  dropdown1RowStyle: { backgroundColor: "#EFEFEF", borderBottomColor: "#C5C5C5" },
-  dropdown1RowTxtStyle: { color: "#444", textAlign: "left" },
-});
