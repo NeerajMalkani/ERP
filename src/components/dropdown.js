@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { View, TouchableNativeFeedback } from "react-native";
+import { View } from "react-native";
 import { Text } from "react-native-paper";
 import SelectDropdown from "react-native-select-dropdown";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Styles } from "../styles/styles";
 import { theme } from "../theme/apptheme";
 
 export default Dropdown = ({ data, label, onSelected }) => {
-  let mainSelectedItem = "";
+  const [selectedMainItem, setSelectedMainItem] = useState("");
   const [isFocused, setFocused] = useState(false);
   return (
     <SelectDropdown
@@ -14,9 +15,9 @@ export default Dropdown = ({ data, label, onSelected }) => {
       dropdownOverlayColor="transparent"
       defaultButtonText={label}
       buttonStyle={{ width: "100%", height: 56, borderBottomWidth: 1, backgroundColor: "transparent", borderBottomColor: isFocused ? theme.colors.primary : theme.colors.textSecondary }}
-      renderCustomizedButtonChild={(selectedItem, index) => {
+      renderCustomizedButtonChild={(selectedItem) => {
         return (
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 8 }}>
+          <View style={[Styles.flex1, Styles.flexRow, Styles.flexAlignCenter, Styles.paddingHorizontal8, { justifyContent: "space-between" }]}>
             <Text style={selectedItem ? { color: isFocused ? theme.colors.primary : theme.colors.text, fontSize: 16 } : { color: isFocused ? theme.colors.primary : theme.colors.textSecondary, fontSize: 16 }}>
               {selectedItem ? selectedItem : label}
             </Text>
@@ -29,19 +30,19 @@ export default Dropdown = ({ data, label, onSelected }) => {
         return <FontAwesome name={isOpened ? "angle-up" : "angle-down"} color={isFocused ? theme.colors.primary : theme.colors.textSecondary} size={18} />;
       }}
       onSelect={(selectedItem, index) => {
-        mainSelectedItem = selectedItem;
+        setSelectedMainItem(selectedItem);
         onSelected(selectedItem, index);
       }}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       renderCustomizedRowChild={(selectedItem) => {
         return (
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 18 }}>
-            <Text style={{ textAlign: "left", color: mainSelectedItem === selectedItem ? theme.colors.primary : theme.colors.text, fontSize: 16 }}>{selectedItem}</Text>
+          <View style={[Styles.flex1, Styles.flexRow, Styles.flexAlignCenter, Styles.paddingHorizontal8, { justifyContent: "space-between" }]}>
+            <Text style={[Styles.textLeft, Styles.fontSize16, { color: selectedMainItem === selectedItem ? theme.colors.primary : theme.colors.text }]}>{selectedItem}</Text>
           </View>
         );
       }}
-      rowTextForSelection={(item, index) => {
+      rowTextForSelection={(item) => {
         return item;
       }}
     />
