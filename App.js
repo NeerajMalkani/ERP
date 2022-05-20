@@ -14,6 +14,7 @@ import { MenuItems } from "./src/json/menu";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Styles } from "./src/styles/styles";
+import { RawMaterialsContextProvider } from "./src/contexts/ListDataContext";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -21,6 +22,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeMainIndex, setActiveMainIndex] = useState(0);
+  const rawMaterialsData = useState([]);
 
   const handleClick = useCallback((index, navigation, mainIndex) => {
     if (navigation !== undefined) {
@@ -96,29 +98,33 @@ export default function App() {
     return (
       <Drawer.Navigator drawerContent={() => <DrawerContent />}>
         <Drawer.Screen options={{ headerShown: false }} name="Dashboard" component={DashboardScreen} />
-        <Drawer.Screen options={{ headerShown: false }} name="RawMaterial" component={RawMaterialScreen} />
+        <Drawer.Screen options={{ headerShown: false }} name="RawMaterial">
+          {(props) => <RawMaterialScreen {...props} rawMaterialsData={rawMaterialsData} />}
+        </Drawer.Screen>
       </Drawer.Navigator>
     );
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <PaperProvider theme={theme}>
-        <NavigationContainer ref={navigationRef}>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
-            <Stack.Screen
-              name="AddRawMaterial"
-              component={AddRawMaterial}
-              options={{
-                headerStyle: [Styles.primaryBgColor, Styles.height64],
-                headerTitleStyle: {
-                  color: theme.colors.textLight,
-                },
-                headerTintColor: theme.colors.textLight,
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <RawMaterialsContextProvider value={rawMaterialsData}>
+          <NavigationContainer ref={navigationRef}>
+            <Stack.Navigator>
+              <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
+              <Stack.Screen
+                name="AddRawMaterial"
+                component={AddRawMaterial}
+                options={{
+                  headerStyle: [Styles.primaryBgColor, Styles.height64],
+                  headerTitleStyle: {
+                    color: theme.colors.textLight,
+                  },
+                  headerTintColor: theme.colors.textLight,
+                }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </RawMaterialsContextProvider>
       </PaperProvider>
     </SafeAreaView>
   );

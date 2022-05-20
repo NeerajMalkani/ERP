@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { View, TouchableNativeFeedback } from "react-native";
 import { FAB, Text } from "react-native-paper";
 import Header from "../../../components/header";
@@ -6,11 +7,64 @@ import { createNavigationContainerRef } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Styles } from "../../../styles/styles";
-import { RawMaterialItems } from "../../../json/rawmaterials";
+import { useEffect } from "react/cjs/react.production.min";
 
 export const navigationRef = createNavigationContainerRef();
 
 export default RawMaterialScreen = ({ navigation }) => {
+  const [rawMaterialsData, setRawMaterialsData] = useState([]);
+
+  // if (route.params != undefined) {
+  // } else {
+  //   setRawMaterialsData([
+  //     {
+  //       key: "1",
+  //       text: "ESSAR",
+  //       code: "ES198",
+  //     },
+  //     {
+  //       key: "2",
+  //       text: "JSW",
+  //       code: "J6423",
+  //     },
+  //     {
+  //       key: "3",
+  //       text: "Sample 1",
+  //       code: "S1435",
+  //     },
+  //     {
+  //       key: "4",
+  //       text: "Sample 2",
+  //       code: "S2547",
+  //     },
+  //   ]);
+  // }
+
+  // useEffect(() => {
+
+  // }, [route.params?.post]);
+  // const rawMaterials = useState([
+  //   {
+  //     key: "1",
+  //     text: "ESSAR",
+  //     code: "ES198",
+  //   },
+  //   {
+  //     key: "2",
+  //     text: "JSW",
+  //     code: "J6423",
+  //   },
+  //   {
+  //     key: "3",
+  //     text: "Sample 1",
+  //     code: "S1435",
+  //   },
+  //   {
+  //     key: "4",
+  //     text: "Sample 2",
+  //     code: "S2547",
+  //   },
+  // ]);
   const CreateActionButtons = (icon, color, callback) => {
     return (
       <TouchableNativeFeedback>
@@ -30,7 +84,7 @@ export default RawMaterialScreen = ({ navigation }) => {
           <Text style={{ paddingEnd: 24 }}>Actions</Text>
         </View>
         <SwipeListView
-          data={RawMaterialItems}
+          data={rawMaterials[0]}
           previewRowKey="1"
           previewOpenValue={-120}
           previewDuration={480}
