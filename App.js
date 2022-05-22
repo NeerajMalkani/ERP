@@ -2,7 +2,7 @@ import { Provider as PaperProvider, List, Text } from "react-native-paper";
 import { theme } from "./src/theme/apptheme";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import RawMaterialScreen, { navigationRef } from "./src/screens/Master/RawMaterials/RawMaterial.screen";
 import DashboardScreen from "./src/screens/Dashboard.screen";
@@ -14,39 +14,37 @@ import { MenuItems } from "./src/json/menu";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Styles } from "./src/styles/styles";
-import { RawMaterialsContextProvider } from "./src/contexts/ListDataContext";
+import { color } from "react-native-reanimated";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [activeMainIndex, setActiveMainIndex] = useState(0);
-  const rawMaterialsData = useState([]);
+  let activeIndex = 0;
+  let activeMainIndex = 0;
 
-  const handleClick = useCallback((index, navigation, mainIndex) => {
-    if (navigation !== undefined) {
-      navigationRef.navigate(navigation);
-    }
-    setTimeout(() => {
-      setActiveMainIndex(parseInt(mainIndex));
-      setActiveIndex(parseInt(index));
-    }, 480);
-  });
-
-  const ListItems = () => {
+  const DrawerContent = (props) => {
+    console.log(activeMainIndex);
     return (
-      <List.Section>
+      <DrawerContentScrollView {...props}>
         {MenuItems.map((k, i) => {
           return k.type === "item" ? (
-            <List.Item
+            <DrawerItem
               key={i}
-              titleStyle={activeIndex === parseInt(i) ? Styles.primaryColor : Styles.textColor}
-              title={k.title}
-              style={[Styles.padding0, Styles.marginHorizontal12, Styles.borderBottom1]}
-              left={() => <List.Icon color={activeIndex === parseInt(i) ? theme.colors.primary : theme.colors.textSecondary} icon={k.icon} />}
+              focused={activeIndex === parseInt(i) ? true : false}
+              label={({ focused, color }) => {
+                return <Text style={[Styles.textColor, Styles.fontSize14, { color: focused ? theme.colors.primary : theme.colors.text }]}>{k.title}</Text>;
+              }}
+              icon={({ focused, color, size }) => <Icon color={focused ? theme.colors.primary : theme.colors.textSecondary} size={24} name={k.icon} />}
               onPress={(e) => {
-                handleClick(i, k.navigation, i);
+                if (k.navigation !== undefined) {
+                  activeMainIndex = parseInt(i);
+                  setTimeout(() => {
+                    activeIndex = parseInt(i);
+                  }, 480);
+
+                  props.navigation.navigate(k.navigation);
+                }
               }}
             />
           ) : (
@@ -54,25 +52,32 @@ export default function App() {
               key={i}
               isRTL={true}
               collapsibleContainerStyle={{}}
-              arrowStyling={{ svgProps: { transform: [{ rotate: "-90deg" }] } }}
+              arrowStyling={{ size: 18, svgProps: { transform: [{ rotate: "-90deg" }] } }}
               initExpanded={activeMainIndex === parseInt(i) ? true : false}
-              style={[Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0, Styles.borderBottom1]}
+              style={[Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0]}
               title={
-                <View style={[Styles.padding16, Styles.flex1, Styles.flexRow, { paddingLeft: 20 }]}>
+                <View style={[Styles.padding8, Styles.flex1, Styles.flexRow]}>
                   <Icon name={k.icon} color={theme.colors.textSecondary} size={24} />
-                  <Text style={[Styles.textColor, Styles.fontSize16, { paddingLeft: 20 }]}>{k.title}</Text>
+                  <Text style={[Styles.textColor, Styles.fontSize14, { paddingLeft: 34 }]}>{k.title}</Text>
                 </View>
               }
             >
               {k.items.map((j, l) => {
                 return (
-                  <List.Item
+                  <DrawerItem
                     key={l}
-                    titleStyle={activeIndex === parseInt(i.toString() + l.toString()) ? Styles.primaryColor : Styles.textSecondaryColor}
-                    title={j.title}
-                    style={[Styles.backgroundSecondaryColor, Styles.paddingVertical8, { borderBottomWidth: 1, borderBottomColor: theme.colors.textLightSecondary }]}
+                    style={{ backgroundColor: theme.colors.backgroundSecondary, marginVertical: 0 }}
+                    focused={activeIndex === parseInt(i.toString() + l.toString()) ? true : false}
+                    label={({ focused }) => <Text style={[Styles.textColor, Styles.fontSize14, { color: focused ? theme.colors.primary : theme.colors.text }]}>{j.title}</Text>}
                     onPress={(e) => {
-                      handleClick(i.toString() + l.toString(), j.navigation, i);
+                      if (j.navigation !== undefined) {
+                        activeMainIndex = parseInt(i);
+                        setTimeout(() => {
+                          activeIndex = parseInt(i.toString() + l.toString());
+                        }, 480);
+
+                        props.navigation.navigate(j.navigation);
+                      }
                     }}
                   />
                 );
@@ -80,51 +85,36 @@ export default function App() {
             </CollapsibleView>
           );
         })}
-      </List.Section>
+      </DrawerContentScrollView>
     );
   };
-
-  const DrawerContent = () => {
-    return (
-      <ScrollView>
-        <View>
-          <ListItems />
-        </View>
-      </ScrollView>
-    );
-  };
-
   const DrawerNavigator = () => {
     return (
-      <Drawer.Navigator drawerContent={() => <DrawerContent />}>
+      <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} initialRouteName="Dashboard">
         <Drawer.Screen options={{ headerShown: false }} name="Dashboard" component={DashboardScreen} />
-        <Drawer.Screen options={{ headerShown: false }} name="RawMaterial">
-          {(props) => <RawMaterialScreen {...props} rawMaterialsData={rawMaterialsData} />}
-        </Drawer.Screen>
+        <Drawer.Screen options={{ headerShown: false }} name="RawMaterial" component={RawMaterialScreen} />
       </Drawer.Navigator>
     );
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <PaperProvider theme={theme}>
-        <RawMaterialsContextProvider value={rawMaterialsData}>
-          <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator>
-              <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
-              <Stack.Screen
-                name="AddRawMaterial"
-                component={AddRawMaterial}
-                options={{
-                  headerStyle: [Styles.primaryBgColor, Styles.height64],
-                  headerTitleStyle: {
-                    color: theme.colors.textLight,
-                  },
-                  headerTintColor: theme.colors.textLight,
-                }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </RawMaterialsContextProvider>
+        <NavigationContainer ref={navigationRef}>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="AddRawMaterial"
+              component={AddRawMaterial}
+              options={{
+                headerStyle: [Styles.primaryBgColor, Styles.height64],
+                headerTitleStyle: {
+                  color: theme.colors.textLight,
+                },
+                headerTintColor: theme.colors.textLight,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </PaperProvider>
     </SafeAreaView>
   );

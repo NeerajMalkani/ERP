@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, TouchableNativeFeedback } from "react-native";
+import React, { useEffect } from "react";
+import { View, TouchableNativeFeedback, LogBox, ActivityIndicator } from "react-native";
 import { FAB, Text } from "react-native-paper";
 import Header from "../../../components/header";
 import { theme } from "../../../theme/apptheme";
@@ -7,64 +7,51 @@ import { createNavigationContainerRef } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Styles } from "../../../styles/styles";
-import { useEffect } from "react/cjs/react.production.min";
+import Provider from "../../../services/api/Provider";
 
 export const navigationRef = createNavigationContainerRef();
+LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
 
-export default RawMaterialScreen = ({ navigation }) => {
-  const [rawMaterialsData, setRawMaterialsData] = useState([]);
+const RawMaterialScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = React.useState(true);
+  const rawMaterials = React.useState([]);
 
-  // if (route.params != undefined) {
-  // } else {
-  //   setRawMaterialsData([
-  //     {
-  //       key: "1",
-  //       text: "ESSAR",
-  //       code: "ES198",
-  //     },
-  //     {
-  //       key: "2",
-  //       text: "JSW",
-  //       code: "J6423",
-  //     },
-  //     {
-  //       key: "3",
-  //       text: "Sample 1",
-  //       code: "S1435",
-  //     },
-  //     {
-  //       key: "4",
-  //       text: "Sample 2",
-  //       code: "S2547",
-  //     },
-  //   ]);
-  // }
-
-  // useEffect(() => {
-
-  // }, [route.params?.post]);
-  // const rawMaterials = useState([
-  //   {
-  //     key: "1",
-  //     text: "ESSAR",
-  //     code: "ES198",
-  //   },
-  //   {
-  //     key: "2",
-  //     text: "JSW",
-  //     code: "J6423",
-  //   },
-  //   {
-  //     key: "3",
-  //     text: "Sample 1",
-  //     code: "S1435",
-  //   },
-  //   {
-  //     key: "4",
-  //     text: "Sample 2",
-  //     code: "S2547",
-  //   },
-  // ]);
+  useEffect(() => {
+    Provider.getAll("shows")
+      .then((response) => {
+        if (response) {
+          if (rawMaterials[0].length === 0) {
+            rawMaterials[1]([
+              {
+                key: "1",
+                text: "ESSAR",
+                code: "ES198",
+              },
+              {
+                key: "2",
+                text: "JSW",
+                code: "J6423",
+              },
+              {
+                key: "3",
+                text: "Sample 1",
+                code: "S1435",
+              },
+              {
+                key: "4",
+                text: "Sample 2",
+                code: "S2547",
+              },
+            ]);
+          }
+        } else {
+        }
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        setIsLoading(false);
+      });
+  }, []);
   const CreateActionButtons = (icon, color, callback) => {
     return (
       <TouchableNativeFeedback>
@@ -77,42 +64,50 @@ export default RawMaterialScreen = ({ navigation }) => {
   return (
     <View style={[Styles.flex1]}>
       <Header navigation={navigation} title="Raw Materials" />
-      <View style={[Styles.flex1, Styles.flexColumn, Styles.backgroundColor]}>
-        <View style={[Styles.flexRow, Styles.backgroundSecondaryColor, Styles.padding16]}>
-          <Text style={[Styles.paddingStart12, { width: 72 }]}>Code</Text>
-          <Text style={[Styles.flexGrow, { paddingStart: 24 }]}>Brand</Text>
-          <Text style={{ paddingEnd: 24 }}>Actions</Text>
+      {isLoading ? (
+        <View style={[Styles.flex1, Styles.flexJustifyCenter, Styles.flexAlignCenter]}>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
-        <SwipeListView
-          data={rawMaterials[0]}
-          previewRowKey="1"
-          previewOpenValue={-120}
-          previewDuration={480}
-          disableRightSwipe={true}
-          useAnimatedList={true}
-          rightOpenValue={-120}
-          renderItem={(data) => (
-            <View style={[Styles.flexRow, Styles.height56, Styles.backgroundColor, Styles.padding16, Styles.borderBottom1]}>
-              <Text style={[Styles.paddingStart12, { width: 72 }]}>{data.item.code}</Text>
-              <Text style={{ paddingStart: 24 }}>{data.item.text}</Text>
-            </View>
-          )}
-          renderHiddenItem={() => (
-            <View style={[Styles.height56, Styles.flexRowReverse, Styles.flexAlignSelfEnd, Styles.flexAlignCenter, { width: 120 }]}>
-              {CreateActionButtons("delete", theme.multicolors.red)}
-              {CreateActionButtons("edit", theme.multicolors.blue)}
-              {CreateActionButtons("remove-red-eye", theme.multicolors.yellow)}
-            </View>
-          )}
-        />
-      </View>
+      ) : (
+        <View style={[Styles.flex1, Styles.flexColumn, Styles.backgroundColor]}>
+          <View style={[Styles.flexRow, Styles.backgroundSecondaryColor, Styles.padding16]}>
+            <Text style={[Styles.paddingStart12, { width: 72 }]}>Code</Text>
+            <Text style={[Styles.flexGrow, { paddingStart: 24 }]}>Brand</Text>
+            <Text style={{ paddingEnd: 24 }}>Actions</Text>
+          </View>
+          <SwipeListView
+            data={rawMaterials[0]}
+            previewRowKey="1"
+            previewOpenValue={-120}
+            previewDuration={480}
+            disableRightSwipe={true}
+            useAnimatedList={true}
+            rightOpenValue={-120}
+            renderItem={(data) => (
+              <View style={[Styles.flexRow, Styles.height56, Styles.backgroundColor, Styles.padding16, Styles.borderBottom1]}>
+                <Text style={[Styles.paddingStart12, { width: 72 }]}>{data.item.code}</Text>
+                <Text style={{ paddingStart: 24 }}>{data.item.text}</Text>
+              </View>
+            )}
+            renderHiddenItem={() => (
+              <View style={[Styles.height56, Styles.flexRowReverse, Styles.flexAlignSelfEnd, Styles.flexAlignCenter, { width: 120 }]}>
+                {CreateActionButtons("delete", theme.multicolors.red)}
+                {CreateActionButtons("edit", theme.multicolors.blue)}
+                {CreateActionButtons("remove-red-eye", theme.multicolors.yellow)}
+              </View>
+            )}
+          />
+        </View>
+      )}
       <FAB
         style={{ position: "absolute", margin: 16, right: 16, bottom: 16, backgroundColor: theme.colors.primary }}
         icon="plus"
         onPress={() => {
-          navigationRef.navigate("AddRawMaterial");
+          navigationRef.navigate("AddRawMaterial", { rawMaterials: rawMaterials[0] });
         }}
       />
     </View>
   );
 };
+
+export default RawMaterialScreen;
