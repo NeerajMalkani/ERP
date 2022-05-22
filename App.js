@@ -21,10 +21,9 @@ const Stack = createStackNavigator();
 
 export default function App() {
   let activeIndex = 0;
-  let activeMainIndex = 0;
+  const [expanded, setExpanded] = useState(false);
 
   const DrawerContent = (props) => {
-    console.log(activeMainIndex);
     return (
       <DrawerContentScrollView {...props}>
         {MenuItems.map((k, i) => {
@@ -33,16 +32,14 @@ export default function App() {
               key={i}
               focused={activeIndex === parseInt(i) ? true : false}
               label={({ focused, color }) => {
-                return <Text style={[Styles.textColor, Styles.fontSize14, { color: focused ? theme.colors.primary : theme.colors.text }]}>{k.title}</Text>;
+                return <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{k.title}</Text>;
               }}
               icon={({ focused, color, size }) => <Icon color={focused ? theme.colors.primary : theme.colors.textSecondary} size={24} name={k.icon} />}
               onPress={(e) => {
                 if (k.navigation !== undefined) {
-                  activeMainIndex = parseInt(i);
-                  setTimeout(() => {
-                    activeIndex = parseInt(i);
-                  }, 480);
-
+                  console.log("here");
+                  setExpanded(false);
+                  activeIndex = parseInt(i);
                   props.navigation.navigate(k.navigation);
                 }
               }}
@@ -53,12 +50,13 @@ export default function App() {
               isRTL={true}
               collapsibleContainerStyle={{}}
               arrowStyling={{ size: 18, svgProps: { transform: [{ rotate: "-90deg" }] } }}
-              initExpanded={activeMainIndex === parseInt(i) ? true : false}
+              //initExpanded={expanded}
+              initExpanded={expanded ? true : false}
               style={[Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0]}
               title={
                 <View style={[Styles.padding8, Styles.flex1, Styles.flexRow]}>
                   <Icon name={k.icon} color={theme.colors.textSecondary} size={24} />
-                  <Text style={[Styles.textColor, Styles.fontSize14, { paddingLeft: 34 }]}>{k.title}</Text>
+                  <Text style={[Styles.textColor, Styles.fontSize16, { paddingLeft: 34 }]}>{k.title}</Text>
                 </View>
               }
             >
@@ -68,14 +66,10 @@ export default function App() {
                     key={l}
                     style={{ backgroundColor: theme.colors.backgroundSecondary, marginVertical: 0 }}
                     focused={activeIndex === parseInt(i.toString() + l.toString()) ? true : false}
-                    label={({ focused }) => <Text style={[Styles.textColor, Styles.fontSize14, { color: focused ? theme.colors.primary : theme.colors.text }]}>{j.title}</Text>}
+                    label={({ focused }) => <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{j.title}</Text>}
                     onPress={(e) => {
                       if (j.navigation !== undefined) {
-                        activeMainIndex = parseInt(i);
-                        setTimeout(() => {
-                          activeIndex = parseInt(i.toString() + l.toString());
-                        }, 480);
-
+                        activeIndex = parseInt(i.toString() + l.toString());
                         props.navigation.navigate(j.navigation);
                       }
                     }}
