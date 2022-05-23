@@ -2,19 +2,18 @@ import { Provider as PaperProvider, List, Text } from "react-native-paper";
 import { theme } from "./src/theme/apptheme";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem, DrawerItemList } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import RawMaterialScreen, { navigationRef } from "./src/screens/Master/RawMaterials/RawMaterial.screen";
 import DashboardScreen from "./src/screens/Dashboard.screen";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView, View } from "react-native";
-import { useState, useCallback } from "react";
+import { View } from "react-native";
+import { useState, useEffect } from "react";
 import AddRawMaterial from "./src/screens/Master/RawMaterials/AddRawMaterial";
 import { MenuItems } from "./src/json/menu";
 import CollapsibleView from "@eliav2/react-native-collapsible-view";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Styles } from "./src/styles/styles";
-import { color } from "react-native-reanimated";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -31,27 +30,24 @@ export default function App() {
             <DrawerItem
               key={i}
               focused={activeIndex === parseInt(i) ? true : false}
-              label={({ focused, color }) => {
+              label={({ focused }) => {
                 return <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{k.title}</Text>;
               }}
-              icon={({ focused, color, size }) => <Icon color={focused ? theme.colors.primary : theme.colors.textSecondary} size={24} name={k.icon} />}
+              icon={({ focused }) => <Icon color={focused ? theme.colors.primary : theme.colors.textSecondary} size={24} name={k.icon} />}
               onPress={(e) => {
                 if (k.navigation !== undefined) {
-                  console.log("here");
-                  setExpanded(false);
                   activeIndex = parseInt(i);
                   props.navigation.navigate(k.navigation);
                 }
+                setExpanded(false);
               }}
             />
           ) : (
             <CollapsibleView
               key={i}
               isRTL={true}
-              collapsibleContainerStyle={{}}
               arrowStyling={{ size: 18, svgProps: { transform: [{ rotate: "-90deg" }] } }}
-              //initExpanded={expanded}
-              initExpanded={expanded ? true : false}
+              initExpanded={expanded}
               style={[Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0]}
               title={
                 <View style={[Styles.padding8, Styles.flex1, Styles.flexRow]}>

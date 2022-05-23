@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, TouchableNativeFeedback, LogBox, ActivityIndicator } from "react-native";
+import { View, TouchableNativeFeedback, ActivityIndicator } from "react-native";
 import { FAB, Text } from "react-native-paper";
 import Header from "../../../components/header";
 import { theme } from "../../../theme/apptheme";
@@ -10,7 +10,6 @@ import { Styles } from "../../../styles/styles";
 import Provider from "../../../services/api/Provider";
 
 export const navigationRef = createNavigationContainerRef();
-LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
 
 const RawMaterialScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -23,22 +22,22 @@ const RawMaterialScreen = ({ navigation }) => {
           if (rawMaterials[0].length === 0) {
             rawMaterials[1]([
               {
-                key: "1",
+                key: 1,
                 text: "ESSAR",
                 code: "ES198",
               },
               {
-                key: "2",
+                key: 2,
                 text: "JSW",
                 code: "J6423",
               },
               {
-                key: "3",
+                key: 3,
                 text: "Sample 1",
                 code: "S1435",
               },
               {
-                key: "4",
+                key: 4,
                 text: "Sample 2",
                 code: "S2547",
               },
@@ -52,9 +51,19 @@ const RawMaterialScreen = ({ navigation }) => {
         setIsLoading(false);
       });
   }, []);
+
+  const UpdateList = (updatedList) => {
+    rawMaterials[1](updatedList);
+  };
+  const RearrangeList = (list) => {
+    list.map((k, i) => {
+      k.key = parseInt(i);
+    });
+    rawMaterials[1](list);
+  };
   const CreateActionButtons = (icon, color, callback) => {
     return (
-      <TouchableNativeFeedback>
+      <TouchableNativeFeedback onPress={callback}>
         <View style={[Styles.width40, Styles.height40, Styles.flexJustifyCenter, Styles.flexAlignCenter]}>
           <Icon name={icon} color={color} size={24} />
         </View>
@@ -89,9 +98,19 @@ const RawMaterialScreen = ({ navigation }) => {
                 <Text style={{ paddingStart: 24 }}>{data.item.text}</Text>
               </View>
             )}
-            renderHiddenItem={() => (
+            renderHiddenItem={(data, rowMap) => (
               <View style={[Styles.height56, Styles.flexRowReverse, Styles.flexAlignSelfEnd, Styles.flexAlignCenter, { width: 120 }]}>
-                {CreateActionButtons("delete", theme.multicolors.red)}
+                {CreateActionButtons("delete", theme.multicolors.red, () => {
+                  const arrRM = [...rawMaterials[0]];
+                  const prevIndex = rawMaterials[0].findIndex((item) => item.key === data.item.key);
+                  if (rowMap[data.item.key]) {
+                    rowMap[data.item.key].closeRow();
+                  }
+                  setTimeout(() => {
+                    arrRM.splice(prevIndex, 1);
+                    RearrangeList(arrRM);
+                  }, 250);
+                })}
                 {CreateActionButtons("edit", theme.multicolors.blue)}
                 {CreateActionButtons("remove-red-eye", theme.multicolors.yellow)}
               </View>
@@ -103,7 +122,7 @@ const RawMaterialScreen = ({ navigation }) => {
         style={{ position: "absolute", margin: 16, right: 16, bottom: 16, backgroundColor: theme.colors.primary }}
         icon="plus"
         onPress={() => {
-          navigationRef.navigate("AddRawMaterial", { rawMaterials: rawMaterials[0] });
+          navigationRef.navigate("AddRawMaterial", { clickHandler: UpdateList, currentList: rawMaterials[0] });
         }}
       />
     </View>

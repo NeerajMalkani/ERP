@@ -8,6 +8,7 @@ export const theme = {
     primary2: "#64b5f6",
     secondary: "#b11313",
     accent: "#4687eb",
+    error: "#B00020",
     text: "#101010",
     textSecondary: "#7d7d7d",
     textLight: "#ffffff",
