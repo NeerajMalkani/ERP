@@ -3,6 +3,7 @@ import { ScrollView, View } from "react-native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
 import Dropdown from "../../../components/dropdown";
 import { Styles } from "../../../styles/styles";
+import { theme } from "../../../theme/apptheme";
 
 export default AddRawMaterial = ({ route, navigation }) => {
   const services = ["Processing", "Formulating", "Sterilization", "Packaging", "Labelling", "Handling", "Quality control"];
@@ -50,8 +51,8 @@ export default AddRawMaterial = ({ route, navigation }) => {
     }
     if (isValid) {
       const arrRawMaterials = [...route.params.currentList];
-      arrRawMaterials.push({ text: category, code: brandCode });
-      route.params.clickHandler(arrRawMaterials);
+      arrRawMaterials.push({ key: arrRawMaterials.length + 1, text: category, code: brandCode });
+      route.params.clickHandler(arrRawMaterials, category);
       navigation.goBack();
     } else {
       setVisible(true);
@@ -71,7 +72,7 @@ export default AddRawMaterial = ({ route, navigation }) => {
           Add
         </Button>
       </ScrollView>
-      <Snackbar visible={visible} onDismiss={() => setVisible(false)} duration={3000}>
+      <Snackbar visible={visible} onDismiss={() => setVisible(false)} duration={3000} style={{ backgroundColor: theme.colors.error }}>
         Please check the details you have filled
       </Snackbar>
     </View>

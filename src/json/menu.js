@@ -4,7 +4,7 @@ export const MenuItems = [
     icon: "view-dashboard",
     type: "item",
     index: 0,
-    navigation: "Dashboard"
+    navigation: "Dashboard",
   },
   {
     title: "Master",
@@ -16,12 +16,13 @@ export const MenuItems = [
         title: "Raw Material Brand",
         type: "accordian",
         index: 11,
-        navigation: "RawMaterial"
+        navigation: "RawMaterial",
       },
       {
         title: "Width of GP coil",
         type: "accordian",
         index: 12,
+        navigation: "GPCoil",
       },
       {
         title: "Mass of Zinc coating",
