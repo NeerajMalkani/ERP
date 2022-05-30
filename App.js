@@ -4,8 +4,8 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
-import RawMaterialScreen, { navigationRef } from "./src/screens/Master/RawMaterials/RawMaterial.screen";
-import DashboardScreen from "./src/screens/Dashboard.screen";
+import RawMaterialScreen from "./src/screens/Master/RawMaterials/RawMaterial.screen";
+import DashboardScreen, { navigationRef } from "./src/screens/Dashboard.screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View } from "react-native";
 import { useState } from "react";
@@ -27,58 +27,58 @@ export default function App() {
   const DrawerContent = (props) => {
     return (
       <DrawerContentScrollView {...props}>
-          {MenuItems.map((k, i) => {
-            return k.type === "item" ? (
-              <DrawerItem
-                key={i}
-                focused={activeIndex === parseInt(i) ? true : false}
-                style={[Styles.borderBottom1]}
-                label={({ focused }) => {
-                  return <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{k.title}</Text>;
-                }}
-                icon={({ focused }) => <Icon color={focused ? theme.colors.primary : theme.colors.textSecondary} size={24} name={k.icon} />}
-                onPress={(e) => {
-                  if (k.navigation !== undefined) {
-                    activeIndex = parseInt(i);
-                    props.navigation.navigate(k.navigation);
-                  }
-                  setExpanded(false);
-                }}
-              />
-            ) : (
-              <CollapsibleView
-                key={i}
-                isRTL={true}
-                arrowStyling={{ size: 18, svgProps: { transform: [{ rotate: "-90deg" }] } }}
-                collapsibleContainerStyle={{ width: "100%" }}
-                initExpanded={expanded}
-                style={[Styles.borderBottom1, Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0]}
-                title={
-                  <View style={[Styles.padding8, Styles.paddingBottom12, Styles.flex1, Styles.flexRow]}>
-                    <Icon name={k.icon} color={theme.colors.textSecondary} size={24} />
-                    <Text style={[Styles.textColor, Styles.fontSize16, { paddingLeft: 34 }]}>{k.title}</Text>
-                  </View>
+        {MenuItems.map((k, i) => {
+          return k.type === "item" ? (
+            <DrawerItem
+              key={i}
+              focused={activeIndex === parseInt(i) ? true : false}
+              style={[Styles.borderBottom1]}
+              label={({ focused }) => {
+                return <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{k.title}</Text>;
+              }}
+              icon={({ focused }) => <Icon color={focused ? theme.colors.primary : theme.colors.textSecondary} size={24} name={k.icon} />}
+              onPress={(e) => {
+                if (k.navigation !== undefined) {
+                  activeIndex = parseInt(i);
+                  props.navigation.navigate(k.navigation);
                 }
-              >
-                {k.items.map((j, l) => {
-                  return (
-                    <DrawerItem
-                      key={l}
-                      style={{ backgroundColor: theme.colors.backgroundSecondary, marginVertical: 0, paddingHorizontal: 0, width: "100%", marginLeft: 0, borderRadius: 0, borderBottomColor: theme.colors.textLightSecondary, borderBottomWidth: 1 }}
-                      focused={activeIndex === parseInt(i.toString() + l.toString()) ? true : false}
-                      label={({ focused }) => <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{j.title}</Text>}
-                      onPress={(e) => {
-                        if (j.navigation !== undefined) {
-                          activeIndex = parseInt(i.toString() + l.toString());
-                          props.navigation.navigate(j.navigation);
-                        }
-                      }}
-                    />
-                  );
-                })}
-              </CollapsibleView>
-            );
-          })}
+                setExpanded(false);
+              }}
+            />
+          ) : (
+            <CollapsibleView
+              key={i}
+              isRTL={true}
+              arrowStyling={{ size: 18, svgProps: { transform: [{ rotate: "-90deg" }] } }}
+              collapsibleContainerStyle={{ width: "100%" }}
+              initExpanded={expanded}
+              style={[Styles.borderBottom1, Styles.border0, Styles.flexAlignStart, Styles.padding0, Styles.margin0]}
+              title={
+                <View style={[Styles.padding8, Styles.paddingBottom12, Styles.flex1, Styles.flexRow]}>
+                  <Icon name={k.icon} color={theme.colors.textSecondary} size={24} />
+                  <Text style={[Styles.textColor, Styles.fontSize16, { paddingLeft: 34 }]}>{k.title}</Text>
+                </View>
+              }
+            >
+              {k.items.map((j, l) => {
+                return (
+                  <DrawerItem
+                    key={l}
+                    style={{ backgroundColor: theme.colors.backgroundSecondary, marginVertical: 0, paddingHorizontal: 0, width: "100%", marginLeft: 0, borderRadius: 0, borderBottomColor: theme.colors.textLightSecondary, borderBottomWidth: 1 }}
+                    focused={activeIndex === parseInt(i.toString() + l.toString()) ? true : false}
+                    label={({ focused }) => <Text style={[Styles.textColor, Styles.fontSize16, { color: focused ? theme.colors.primary : theme.colors.text }]}>{j.title}</Text>}
+                    onPress={(e) => {
+                      if (j.navigation !== undefined) {
+                        activeIndex = parseInt(i.toString() + l.toString());
+                        props.navigation.navigate(j.navigation);
+                      }
+                    }}
+                  />
+                );
+              })}
+            </CollapsibleView>
+          );
+        })}
       </DrawerContentScrollView>
     );
   };

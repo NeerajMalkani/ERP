@@ -5,6 +5,9 @@ import { View } from "react-native";
 import { LineChart } from "react-native-svg-charts";
 import { Grid } from "react-native-svg-charts";
 import { Styles } from "../styles/styles";
+import { createNavigationContainerRef } from "@react-navigation/native";
+
+export const navigationRef = createNavigationContainerRef();
 
 export default DashboardScreen = ({ navigation }) => {
   const CreateMainCard = (title, description, color, subdescription) => {

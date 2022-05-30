@@ -17,8 +17,6 @@ export default AddRawMaterial = ({ route, navigation }) => {
   const [category, setCategory] = React.useState("");
   const [brandCode, setBrandCode] = React.useState("");
 
-  console.log(route.params.currentList);
-
   const onServiceSelected = (selectedItem) => {
     setService(selectedItem);
     setServiceError(false);
@@ -69,7 +67,7 @@ export default AddRawMaterial = ({ route, navigation }) => {
         </View>
         <TextInput label="Brand code" onChangeText={onBrandCodeChanged} style={{ backgroundColor: "transparent" }} error={brandCodeError} />
         <Button style={{ marginTop: 32 }} mode="contained" onPress={ValidateRawMaterials}>
-          Add
+          SAVE
         </Button>
       </ScrollView>
       <Snackbar visible={visible} onDismiss={() => setVisible(false)} duration={3000} style={{ backgroundColor: theme.colors.error }}>
