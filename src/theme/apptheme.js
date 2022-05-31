@@ -7,7 +7,7 @@ export const theme = {
     primary: "#068981", //"#2196f3", //"#473f97",
     primary2: "#64b5f6",
     secondary: "#b11313",
-    accent: "#4687eb",
+    accent: "#dcfcf7",
     error: "#B00020",
     success: "#198754",
     snackbar: "#333333",

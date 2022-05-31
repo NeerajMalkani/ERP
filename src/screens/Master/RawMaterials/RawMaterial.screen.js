@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { View, ActivityIndicator, LogBox } from "react-native";
-import { FAB, Snackbar } from "react-native-paper";
+import { FAB, Snackbar, Title } from "react-native-paper";
 import Header from "../../../components/header";
 import { theme } from "../../../theme/apptheme";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -43,7 +43,7 @@ const RawMaterialScreen = ({ navigation }) => {
   };
   const RearrangeList = (list) => {
     list.map((k, i) => {
-      k.key = parseInt(i);
+      k.key = parseInt(i) + 1;
     });
     listData[1](list);
   };
@@ -66,7 +66,7 @@ const RawMaterialScreen = ({ navigation }) => {
   };
   return (
     <View style={[Styles.flex1]}>
-      <Header navigation={navigation} title="Raw Materials" />
+      <Header navigation={navigation} title="Raw Materials Brand" />
       {isLoading ? (
         <View style={[Styles.flex1, Styles.flexJustifyCenter, Styles.flexAlignCenter]}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -74,7 +74,7 @@ const RawMaterialScreen = ({ navigation }) => {
       ) : listData[0].length > 0 ? (
         <View style={[Styles.flex1, Styles.flexColumn, Styles.backgroundColor]}>
           <ListHeader headerText="Brand" />
-          <SwipeListView data={listData[0]} previewOpenValue={-112} previewDuration={480} disableRightSwipe={true} rightOpenValue={-112} renderItem={(data) => RenderItems(data)} renderHiddenItem={(data, rowMap) => RenderHiddenItems(data, rowMap, [DeleteCallback])} />
+          <SwipeListView data={listData[0]} previewOpenValue={-120} previewDuration={480} disableRightSwipe={true} rightOpenValue={-120} renderItem={(data) => RenderItems(data)} renderHiddenItem={(data, rowMap) => RenderHiddenItems(data, rowMap, [DeleteCallback])} />
         </View>
       ) : (
         <Noitems icon="format-list-bulleted" text="No records found. Add records by clicking on plus icon." />

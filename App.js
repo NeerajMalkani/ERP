@@ -16,6 +16,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Styles } from "./src/styles/styles";
 import GPCoil from "./src/screens/Master/GPCoil/GPCoil.screen";
 import AddGPCoilWidth from "./src/screens/Master/GPCoil/AddGPCoilWidth";
+import ZincCoating from "./src/screens/Master/ZincCoating/ZincCoating.screen";
+import AddZincCoating from "./src/screens/Master/ZincCoating/AddZincCoating";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -88,6 +90,7 @@ export default function App() {
         <Drawer.Screen options={{ headerShown: false }} name="Dashboard" component={DashboardScreen} />
         <Drawer.Screen options={{ headerShown: false }} name="RawMaterial" component={RawMaterialScreen} />
         <Drawer.Screen options={{ headerShown: false }} name="GPCoil" component={GPCoil} />
+        <Drawer.Screen options={{ headerShown: false }} name="ZincCoating" component={ZincCoating} />
       </Drawer.Navigator>
     );
   };
@@ -111,6 +114,17 @@ export default function App() {
             <Stack.Screen
               name="AddGPCoilWidth"
               component={AddGPCoilWidth}
+              options={{
+                headerStyle: [Styles.primaryBgColor, Styles.height64],
+                headerTitleStyle: {
+                  color: theme.colors.textLight,
+                },
+                headerTintColor: theme.colors.textLight,
+              }}
+            />
+            <Stack.Screen
+              name="AddZincCoating"
+              component={AddZincCoating}
               options={{
                 headerStyle: [Styles.primaryBgColor, Styles.height64],
                 headerTitleStyle: {

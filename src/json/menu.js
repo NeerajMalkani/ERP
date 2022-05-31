@@ -7,8 +7,8 @@ export const MenuItems = [
     navigation: "Dashboard",
   },
   {
-    title: "Master",
-    icon: "file-settings",
+    title: "Manufacturer",
+    icon: "robot-industrial",
     type: "accordian",
     index: 1,
     items: [
@@ -28,6 +28,7 @@ export const MenuItems = [
         title: "Mass of Zinc coating",
         type: "accordian",
         index: 13,
+        navigation: "ZincCoating",
       },
       {
         title: "Product for Production",

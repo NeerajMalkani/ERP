@@ -24,18 +24,37 @@ export const RawMaterialsData = [
 export const GPCoilData = [
   {
     key: 1,
-    text: "1250",
+    text: "1250mm",
   },
   {
     key: 2,
-    text: "750",
+    text: "750mm",
   },
   {
     key: 3,
-    text: "450",
+    text: "450mm",
   },
   {
     key: 4,
-    text: "180",
+    text: "180mm",
+  },
+];
+
+export const ZincCoatingData = [
+  {
+    key: 1,
+    text: "120 GSM",
+  },
+  {
+    key: 2,
+    text: "180 GSM",
+  },
+  {
+    key: 3,
+    text: "225 GSM",
+  },
+  {
+    key: 4,
+    text: "275 GSM",
   },
 ];

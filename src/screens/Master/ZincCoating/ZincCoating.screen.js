@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
 import { View, ActivityIndicator, LogBox } from "react-native";
-import { FAB, Snackbar, Title } from "react-native-paper";
+import { FAB, Snackbar } from "react-native-paper";
 import Header from "../../../components/header";
 import { theme } from "../../../theme/apptheme";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Styles } from "../../../styles/styles";
 import Provider from "../../../services/api/Provider";
-import { GPCoilData } from "../../../json/listitems";
+import { ZincCoatingData } from "../../../json/listitems";
 import Noitems from "../../../components/noitems";
 import { ListHeader, RenderHiddenItems, RenderItems } from "../../../components/listactions";
 import { navigationRef } from "../../Dashboard.screen";
 
 LogBox.ignoreLogs(["Non-serializable values were found in the navigation state"]);
 
-const GPCoil = ({ navigation }) => {
+const ZincCoating = ({ navigation }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [snackbarText, setSnackbarText] = React.useState("");
@@ -25,7 +25,7 @@ const GPCoil = ({ navigation }) => {
       .then((response) => {
         if (response) {
           if (listData[0].length === 0) {
-            listData[1](GPCoilData);
+            listData[1](ZincCoatingData);
           }
         }
         setIsLoading(false);
@@ -48,7 +48,7 @@ const GPCoil = ({ navigation }) => {
     listData[1](list);
   };
   const AddCallback = () => {
-    navigationRef.navigate("AddGPCoilWidth", { clickHandler: UpdateList, currentList: listData[0] });
+    navigationRef.navigate("AddZincCoating", { clickHandler: UpdateList, currentList: listData[0] });
   };
   const DeleteCallback = (data, rowMap) => {
     const arrList = [...listData[0]];
@@ -66,14 +66,14 @@ const GPCoil = ({ navigation }) => {
   };
   return (
     <View style={[Styles.flex1]}>
-      <Header navigation={navigation} title="Width of GP Coil" />
+      <Header navigation={navigation} title="Mass of Zinc Coating" />
       {isLoading ? (
         <View style={[Styles.flex1, Styles.flexJustifyCenter, Styles.flexAlignCenter]}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
       ) : listData[0].length > 0 ? (
         <View style={[Styles.flex1, Styles.flexColumn, Styles.backgroundColor]}>
-          <ListHeader headerText="Width of GP Coil" />
+          <ListHeader headerText="GSM" />
           <SwipeListView data={listData[0]} previewOpenValue={-120} previewDuration={480} disableRightSwipe={true} rightOpenValue={-120} renderItem={(data) => RenderItems(data)} renderHiddenItem={(data, rowMap) => RenderHiddenItems(data, rowMap, [DeleteCallback])} />
         </View>
       ) : (
@@ -86,4 +86,4 @@ const GPCoil = ({ navigation }) => {
     </View>
   );
 };
-export default GPCoil;
+export default ZincCoating;

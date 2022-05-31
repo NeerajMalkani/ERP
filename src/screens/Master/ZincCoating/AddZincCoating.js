@@ -4,20 +4,20 @@ import { Button, Snackbar, TextInput } from "react-native-paper";
 import { Styles } from "../../../styles/styles";
 import { theme } from "../../../theme/apptheme";
 
-export default AddGPCoilWidth = ({ route, navigation }) => {
+export default AddZincCoating = ({ route, navigation }) => {
   const [visible, setVisible] = React.useState(false);
 
-  const [widthOfGPCoilError, setWidthOfGPCoilError] = React.useState(false);
+  const [gsmError, setGSMError] = React.useState(false);
   const [descriptionError, setDescriptionError] = React.useState(false);
-  const [widthOfGPCoil, setWidthOfGPCoil] = React.useState("");
+  const [gsm, setGSM] = React.useState("");
   const [description, setDescription] = React.useState("");
 
-  const onWidthOfGPCoilChanged = (text) => {
+  const onGSMChanged = (text) => {
     if (text.length === 0) {
-      setWidthOfGPCoilError(true);
+      setGSMError(true);
     } else {
-      setWidthOfGPCoil(text);
-      setWidthOfGPCoilError(false);
+      setGSM(text);
+      setGSMError(false);
     }
   };
 
@@ -30,10 +30,10 @@ export default AddGPCoilWidth = ({ route, navigation }) => {
     }
   };
 
-  const ValidateGPCoil = () => {
+  const ValidateZincCoating = () => {
     let isValid = true;
-    if (widthOfGPCoil.length === 0) {
-      setWidthOfGPCoilError(true);
+    if (gsm.length === 0) {
+      setGSMError(true);
       isValid = false;
     }
     if (description.length === 0) {
@@ -41,9 +41,9 @@ export default AddGPCoilWidth = ({ route, navigation }) => {
       isValid = false;
     }
     if (isValid) {
-      const arrGPCoil = [...route.params.currentList];
-      arrGPCoil.push({ key: arrGPCoil.length + 1, text: widthOfGPCoil + "mm" });
-      route.params.clickHandler(arrGPCoil, widthOfGPCoil + "mm");
+      const arrGSM = [...route.params.currentList];
+      arrGSM.push({ key: arrGSM.length + 1, text: gsm + " GSM" });
+      route.params.clickHandler(arrGSM, gsm + " GSM");
       navigation.goBack();
     } else {
       setVisible(true);
@@ -53,9 +53,9 @@ export default AddGPCoilWidth = ({ route, navigation }) => {
   return (
     <View style={[Styles.flex1]}>
       <ScrollView style={[Styles.flex1, Styles.padding16, Styles.backgroundColor]} keyboardShouldPersistTaps="handled">
-        <TextInput label="Width of GP Coil" onChangeText={onWidthOfGPCoilChanged} keyboardType="numeric" style={{ backgroundColor: "transparent" }} error={widthOfGPCoilError} />
+        <TextInput label="GSM" onChangeText={onGSMChanged} keyboardType="numeric" style={{ backgroundColor: "transparent" }} error={gsmError} />
         <TextInput label="Description" onChangeText={onDescriptionChanged} style={{ backgroundColor: "transparent" }} error={descriptionError} />
-        <Button style={{ marginTop: 32 }} mode="contained" onPress={ValidateGPCoil}>
+        <Button style={{ marginTop: 32 }} mode="contained" onPress={ValidateZincCoating}>
           SAVE
         </Button>
       </ScrollView>

@@ -6,7 +6,7 @@ import { theme } from "../theme/apptheme";
 
 export const ListHeader = ({ headerText }) => {
   return (
-    <View style={[Styles.flexRow, Styles.backgroundSecondaryColor, Styles.padding16]}>
+    <View style={[Styles.flexRow, Styles.accentBgColor, Styles.padding16]}>
       <Text style={[Styles.textCenter, { width: 64 }]}>Sr. No.</Text>
       <Text style={[Styles.flexGrow, { paddingStart: 24 }]}>{headerText}</Text>
       <Text style={{ paddingEnd: 24 }}>Actions</Text>
@@ -17,7 +17,7 @@ export const RenderItems = (data) => {
   return (
     <View style={[Styles.flexRow, Styles.height64, Styles.backgroundColor, Styles.borderBottom1, Styles.flexAlignCenter, Styles.paddingStart16]}>
       <Text style={[Styles.textCenter, { width: 64 }]}>{data.item.key}</Text>
-      <Text style={{ paddingStart: 24 }}>{data.item.text}</Text>
+      <Text style={[Styles.textCenter, { paddingStart: 24 }]}>{data.item.text}</Text>
     </View>
   );
 };
